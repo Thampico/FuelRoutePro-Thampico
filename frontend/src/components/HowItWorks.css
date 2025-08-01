@@ -1,0 +1,563 @@
+.how-it-works-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    color: white;
+    padding: 2rem;
+    padding-top: 140px;
+  }
+  
+  /* Header Section */
+  .how-it-works-header {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .welcome-section p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .navigation-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .calculator-link {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #1f2937;
+  }
+  
+  .calculator-link:hover {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  }
+  
+  /* Tab Navigation */
+  .tab-navigation {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    display: flex;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .tab-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .tab-btn.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  }
+  
+  .tab-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  /* Content Container */
+  .content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .section-description {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+  
+  /* Calculations Section */
+  .calculations-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .calculation-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .calculation-card {
+    display: flex;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  
+  .step-number {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-right: 2rem;
+    flex-shrink: 0;
+  }
+  
+  .calculation-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #10b981;
+  }
+  
+  .formula-box, .example-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .formula-box {
+    border-left: 4px solid #3b82f6;
+  }
+  
+  .example-box {
+    border-left: 4px solid #10b981;
+  }
+  
+  /* AI Sources Section */
+  .ai-sources-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .data-sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .data-source-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  
+  .source-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .source-header h3 {
+    color: #10b981;
+    font-size: 1.3rem;
+  }
+  
+  .reliability-badge {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .source-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .detail-item {
+    line-height: 1.5;
+  }
+  
+  .detail-item strong {
+    color: #3b82f6;
+  }
+  
+  /* AI Process Flow */
+  .ai-process-flow {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .ai-process-flow h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #10b981;
+    font-size: 1.5rem;
+  }
+  
+  .process-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .process-step {
+    text-align: center;
+    min-width: 150px;
+  }
+  
+  .step-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .step-content h4 {
+    color: #3b82f6;
+    margin-bottom: 0.5rem;
+  }
+  
+  .step-content p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+  
+  .arrow {
+    font-size: 1.5rem;
+    color: #10b981;
+    font-weight: bold;
+  }
+  
+  /* Fuel Insights Section */
+  .fuel-insights-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .fuel-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .fuel-insight-card {
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  
+  .fuel-insight-card.hydrogen {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(30, 64, 175, 0.2) 100%);
+  }
+  
+  .fuel-insight-card.methanol {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%);
+  }
+  
+  .fuel-insight-card.ammonia {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+  }
+  
+  .fuel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .fuel-header h3 {
+    font-size: 1.3rem;
+    color: white;
+  }
+  
+  .multiplier-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  .fuel-content h4 {
+    color: #10b981;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .fuel-content p {
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+  
+  /* Market Intelligence */
+  .market-intelligence {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .market-intelligence h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #10b981;
+    font-size: 1.5rem;
+  }
+  
+  .intelligence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .intelligence-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .intelligence-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .intelligence-item h4 {
+    color: #3b82f6;
+    margin-bottom: 0.5rem;
+  }
+  
+  .intelligence-item p {
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .how-it-works-header {
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: center;
+    }
+    
+    .welcome-section h1 {
+      font-size: 2rem;
+    }
+    
+    .navigation-links {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .tab-navigation {
+      flex-direction: column;
+    }
+    
+    .calculation-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .step-number {
+      margin: 0 auto 1rem;
+    }
+    
+    .process-steps {
+      flex-direction: column;
+    }
+    
+    .arrow {
+      transform: rotate(90deg);
+    }
+  }
+
+/* Current Implementation Section */
+.current-implementation {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 3rem;
+  }
+  
+  .current-implementation h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #10b981;
+    font-size: 1.5rem;
+  }
+  
+  .implementation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .implementation-item {
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+  
+  .implementation-item.active {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  
+  .implementation-item.planned {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  
+  .status-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .implementation-item h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .implementation-item.active h4 {
+    color: #10b981;
+  }
+  
+  .implementation-item.planned h4 {
+    color: #3b82f6;
+  }
+  
+  .implementation-item p {
+    opacity: 0.9;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+  
+  /* AI Info Section */
+  .ai-info {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    margin-top: 3rem;
+  }
+  
+  .ai-info h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #3b82f6;
+    font-size: 1.5rem;
+  }
+  
+  .ai-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .ai-feature {
+    background: rgba(59, 130, 246, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    text-align: center;
+  }
+  
+  .ai-feature h4 {
+    color: #3b82f6;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+  }
+  
+  .ai-feature p {
+    opacity: 0.9;
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+  
+  /* Enhanced Process Step */
+  .process-step .step-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Responsive updates */
+  @media (max-width: 768px) {
+    .implementation-grid,
+    .ai-details {
+      grid-template-columns: 1fr;
+    }
+    
+    .current-implementation,
+    .ai-info {
+      padding: 1.5rem;
+    }
+  }
