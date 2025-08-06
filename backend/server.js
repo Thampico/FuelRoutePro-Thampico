@@ -57,7 +57,9 @@ app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:3000',
     'http://localhost:3001',
-    'https://fuel-route-pro-thampico.vercel.app'
+    'https://fuel-route-pro-thampico.vercel.app',
+    'https://fuelroute.pro',
+    'https://www.fuelroute.pro'
   ],
   credentials: true
 }));
