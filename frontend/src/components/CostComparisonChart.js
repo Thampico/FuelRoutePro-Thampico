@@ -60,7 +60,7 @@ const CostComparisonChart = ({ routes = [] }) => {
     <div style={{ height: '300px' }}>
       <Bar data={data} options={options} />
       <p className="text-center text-gray-600 text-sm mt-2">
-        Bars show total project cost per route.
+        Bars show base transport cost per route.
       </p>
     </div>
   );

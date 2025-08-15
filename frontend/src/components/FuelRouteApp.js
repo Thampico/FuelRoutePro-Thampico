@@ -1301,15 +1301,32 @@ const validateLocationBasic = (location, fieldName) => {
                     </div>
                   )}
 
-                  {/* Route Options Display - Updated for All-In Costs */}
+                  {/* Route Options Display - Updated to Remove Cost Breakdown and Duplicates */}
                   <div className="space-y-4">
-                    {result.routeOptions.map((option, index) => (
+                    {(() => {
+                      // ✅ DEDUPLICATE: Remove duplicate routes at UI level
+                      const uniqueRoutes = [];
+                      const seenRoutes = new Set();
+                      
+                      result.routeOptions.forEach((option, index) => {
+                        // Create unique key based on transport modes, distance, and cost
+                        const routeKey = `${option.transportModes?.join('-') || 'unknown'}-${Math.round((option.distance || 0)/50)*50}-${Math.round((option.estimatedCost || 0)/1000)*1000}`;
+                        
+                        if (!seenRoutes.has(routeKey)) {
+                          seenRoutes.add(routeKey);
+                          uniqueRoutes.push({ ...option, originalIndex: index });
+                        }
+                      });
+                      
+                      console.log(`🔍 UI Deduplication: ${result.routeOptions.length} → ${uniqueRoutes.length} routes`);
+                      
+                      return uniqueRoutes.map((option, uniqueIndex) => (
                       <div 
-                        key={option.id || index} 
+                        key={option.id || `unique-${uniqueIndex}`} 
                         className={`border rounded-lg p-4 transition-all cursor-pointer ${
                           mapData.selectedRoute && mapData.selectedRoute.id === option.id
                             ? 'border-blue-500 bg-blue-50 shadow-md' 
-                            : index === 0 || option.recommended ? 'border-green-500 bg-green-50' : 
+                            : uniqueIndex === 0 || option.recommended ? 'border-green-500 bg-green-50' : 
                               option.aiEnhanced ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50 hover:border-blue-300'
                         }`}
                         onClick={() => {
@@ -1326,7 +1343,7 @@ const validateLocationBasic = (location, fieldName) => {
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2 flex-wrap">
                               <h4 className="font-semibold text-gray-900">{option.name || 'Unknown Route'}</h4>
-                              {(index === 0 || option.recommended) && (
+                              {(uniqueIndex === 0 || option.recommended) && (
                                 <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
                                   🎯 RECOMMENDED
                                 </span>
@@ -1337,9 +1354,9 @@ const validateLocationBasic = (location, fieldName) => {
                                 </span>
                               )}
                               
-                              {/* ✅ NEW: All-In Cost Badge */}
-                              <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                                💰 ALL-IN PRICE
+                              {/* ✅ UPDATED: Transport Only Badge */}
+                              <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                                🚛 TRANSPORT ONLY
                               </span>
                               {/* ✅ ADD: Map selection indicator */}
                               {mapData.selectedRoute && mapData.selectedRoute.id === option.id && (
@@ -1357,55 +1374,38 @@ const validateLocationBasic = (location, fieldName) => {
                                 option.riskLevel === 'medium' ? 'text-yellow-600' : 'text-red-600'
                               }`}>{option.riskLevel || 'Unknown'}</span></div>
                               
-                              {/* ✅ NEW: Cost Breakdown Preview */}
-                              {option.costBreakdown && (
-                                <div className="bg-gray-50 rounded p-2 mt-2">
-                                  <div className="text-xs font-medium text-gray-700 mb-1">💰 Cost Breakdown:</div>
-                                  <div className="text-xs text-gray-600 space-y-1">
-                                    <div className="flex justify-between">
-                                      <span>🚛 Transport & Logistics:</span>
-                                      <span className="font-medium">{formatCurrency(option.costBreakdown.transportCost || 0)}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                      <span>⛽ Fuel Purchase ({formData.volume} tonnes):</span>
-                                      <span className="font-medium">{formatCurrency(option.costBreakdown.commodityCost || 0)}</span>
-                                    </div>
-                                    <div className="flex justify-between border-t pt-1 font-semibold">
-                                      <span>💰 Total Project Cost:</span>
-                                      <span className="text-green-600">{formatCurrency(option.costBreakdown.totalCost || option.estimatedCost)}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                              
-                              {option.description && (
-                                <div className="italic mt-2">💡 {option.description}</div>
-                              )}
+
                             </div>
                           </div>
                           
                           <div className="text-right ml-4">
                             {/* ✅ UPDATED: Emphasize All-In Cost */}
-                            <div className="text-xs text-gray-500 mb-1">TOTAL PROJECT COST</div>
+                            <div className="text-xs text-gray-500 mb-1">BASE TRANSPORT COST</div>
                             <div className="text-2xl font-bold text-green-600">
-                              {formatCurrency(option.estimatedCost || 0)}
+                              {formatCurrency(
+                                option.costBreakdown?.totalCost || 
+                                option.estimatedCost || 
+                                ((option.costBreakdown?.transportCost || 0) + (option.costBreakdown?.commodityCost || 0)) ||
+                                0
+                              )}
                             </div>
-                            <div className="text-xs text-gray-500 mt-1">
-                              Transport + Fuel Included
-                            </div>
+                            
                             {option.aiEnhanced && (
-                              <div className="text-xs text-blue-600 mb-1">🤖 AI Pricing</div>
+                              <div className="text-xs text-blue-600 mb-1"></div>
                             )}
-                            <button 
-                              onClick={() => calculateDetailedCost(option)}
-                              className="mt-2 text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors"
-                            >
-                              Get Details
-                            </button>
+                            <div className="flex justify-center mt-2">
+                              <button 
+                                onClick={() => calculateDetailedCost(option)}
+                                className="get-details-button"
+                              >
+                                Get Details
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    ))}
+                    ));
+                    })()}
                   </div>
                 </div>
               )}
@@ -1432,7 +1432,6 @@ const validateLocationBasic = (location, fieldName) => {
                   {result.selectedRoute && (
                     <div className="bg-blue-50 p-3 rounded mb-4">
                       <h4 className="font-medium text-blue-800">{result.selectedRoute.name}</h4>
-                      <p className="text-blue-700 text-sm">{result.selectedRoute.description}</p>
                       { (result.selectedRoute.trucksNeeded || result.calculation?.trucksNeeded) && (
                         <p className="text-blue-700 text-sm">🚚 {formatTrucks(result.selectedRoute.trucksNeeded || result.calculation.trucksNeeded)}</p>
                       )}
@@ -1550,27 +1549,6 @@ const validateLocationBasic = (location, fieldName) => {
                         </div>
                       </div>
                     </div>
-
-                    {/* ✅ SUMMARY: Cost per Unit Analysis */}
-                    <div className="bg-gray-50 border border-gray-200 rounded p-4">
-                      <h4 className="font-medium mb-3 text-gray-800">📊 Cost per Unit Analysis:</h4>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <span className="font-medium">Transport Cost per Tonne:</span><br />
-                          <span className="text-lg font-bold text-blue-600">
-                            ${(result.calculation.costSummary.pureTransportCosts / parseFloat(formData.volume)).toFixed(2)}/tonne
-                          </span>
-                        </div>
-                        <div>
-                          <span className="font-medium">Total Cost per Tonne:</span><br />
-                          <span className="text-lg font-bold text-green-600">
-                            ${(result.calculation.totalCost / parseFloat(formData.volume)).toFixed(2)}/tonne
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    
 
                     {/* Confidence & Metadata */}
                     <div className="flex justify-between items-center text-sm text-gray-600 pt-4 border-t">

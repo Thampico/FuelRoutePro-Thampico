@@ -632,10 +632,13 @@ async function generateRouteOptions(routeData) {
         const transportCost = typeof costResult === 'object' ? costResult.cost : costResult;
         const aiEnhanced = typeof costResult === 'object' ? costResult.aiEnhanced : false;
         
-        // Get commodity cost using dynamic fuel price
-        const commodityInfo = getCommodityCost(fuelType, volume, costResult.fuelPrice);
-        const allInCost = transportCost + commodityInfo.totalCost;
+        // ✅ FIX: Ensure fuelPrice is properly extracted
+        const fuelPrice = typeof costResult === 'object' ? costResult.fuelPrice : null;
         
+        // Get commodity cost using dynamic fuel price
+        const commodityInfo = getCommodityCost(fuelType, volume, fuelPrice);
+        const allInCost = transportCost + commodityInfo.totalCost;
+
         // Format route option
         const formattedRoute = {
           id: `${route.mode}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -643,10 +646,10 @@ async function generateRouteOptions(routeData) {
           name: `${route.mode.charAt(0).toUpperCase() + route.mode.slice(1)} Route`,
           transportModes: [route.mode],
           estimatedTime: `${Math.round(route.duration_hours)} hours`,
-          estimatedCost: allInCost,
+          estimatedCost: allInCost,  // ✅ This should be total project cost
           distance: route.distance_miles,
           riskLevel: route.feasible > 0.8 ? 'low' : route.feasible > 0.6 ? 'medium' : 'high',
-          description: `${route.routing_method} - Feasibility: ${Math.round(route.feasible * 100)}%`,
+          description: `${route.routing_method}`,
           
           // Enhanced route data
           routingMethod: route.routing_method,
@@ -658,7 +661,7 @@ async function generateRouteOptions(routeData) {
           costBreakdown: {
             transportCost: transportCost,
             commodityCost: commodityInfo.totalCost,
-            totalCost: allInCost
+            totalCost: allInCost  // ✅ This should match estimatedCost
           },
 
           // Truck info
@@ -730,8 +733,24 @@ async function generateRouteOptions(routeData) {
       }
     }
     
-    // Sort options by user preference
-    formattedOptions.sort((a, b) => {
+    // ✅ DEDUPLICATE: Remove duplicate routes based on transport mode and similar characteristics
+    const deduplicatedOptions = [];
+    const seenRoutes = new Set();
+    
+    for (const option of formattedOptions) {
+      // Create a unique key based on transport modes and route type
+      const routeKey = `${option.transportModes.join('-')}-${option.type}-${Math.round(option.distance/100)*100}`;
+      
+      if (!seenRoutes.has(routeKey)) {
+        seenRoutes.add(routeKey);
+        deduplicatedOptions.push(option);
+      } else {
+        console.log(`🔍 Removing duplicate route: ${option.name} (key: ${routeKey})`);
+      }
+    }
+
+    // Sort deduplicated options by user preference
+    deduplicatedOptions.sort((a, b) => {
       // Prioritize non-fallback routes
       if (a.fallback !== b.fallback) return a.fallback - b.fallback;
 
@@ -745,8 +764,8 @@ async function generateRouteOptions(routeData) {
       return a.estimatedCost - b.estimatedCost;
     });
     
-    console.log(`✅ Generated ${formattedOptions.length} enhanced route options`);
-    return formattedOptions;
+    console.log(`✅ Generated ${deduplicatedOptions.length} enhanced route options (removed ${formattedOptions.length - deduplicatedOptions.length} duplicates)`);
+    return deduplicatedOptions;
     
   } catch (error) {
     console.error('❌ Routing service failed, using fallback generation:', error.message);
